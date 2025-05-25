@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - University of the Assumption</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: url(university-of-the-assumption-498bc997-b675-44f1-aee5-0dcc434b84b-resize-750.jpeg) no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px); /* Blur for modern effect */
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+header {
+  background: linear-gradient(90deg, #0d0d5f, #1e1e88);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header .logo img {
+  height: 55px;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+nav a.active {
+  background-color: #ffffff;
+  color: #1e1e88;
+  font-weight: bold;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 25px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-card .card-logo {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: white;
+}
+
+form input {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  outline: none;
+}
+
+form input:focus {
+  border: 2px solid #1300d0;
+  background-color: white;
+}
+
+form button {
+  background: linear-gradient(135deg, #1300d0, #5f6eff);
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background: linear-gradient(135deg, #0f0099, #3e4fff);
+}
+
+#errorMsg {
+  color: red;
+  font-size: 0.9em;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.formators p {
+  margin: 5px 0;
+  color: #fff;
+  font-weight: 500;
+}
+
+.formators span {
+  font-size: 0.85em;
+  color: #e1e1e1;
+}
+
+/* Footer */
+footer {
+  background: rgba(15, 15, 70, 0.95);
+  color: #e0e0ff;
+  text-align: center;
+  padding: 18px 10px;
+  font-size: 0.95em;
+  font-weight: 500;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="UA-Logo (2).png" alt="University Logo" />
+    </div>
+    <nav>
+      <a href="#">HOME</a>
+      <a href="#" class="active">LOGIN</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="login-card">
+      <img src="UA-Logo (2).png" alt="University Logo" class="card-logo" />
+      <form action="login.php" method="POST">
+
+
+
+        <!-- <label for="userID">USER ID</label>
+        <input type="text" id="userID" name="userID" required />
+
+        <label for="password">PASSWORD</label>
+        <input type="password" id="password" name="password" required /> -->
+
+        <label for="userID">USER ID</label>
+        <input type="text" id="userID" name="userID" required />
+        <div id="userIDError" style="color:red; display:none; font-size:0.9em;"></div>
+      
+        <label for="password">PASSWORD</label>
+        <input type="password" id="password" name="password" required />
+        <div id="passwordError" style="color:red; display:none; font-size:0.9em;"></div>
+
+        <button type="submit">LOGIN</button>
+
+        
+      </form>
+
+      <div class="formators">
+        <p>THE FORMATOR of</p>
+        <p><strong>BIASA</strong> <span>(ACADEMICALLY COMPETENT)</span></p>
+        <p><strong>MAGANACA</strong> <span>(MORALLY UPRIGHT)</span></p>
+        <p><strong>MAYAP</strong> <span>(SOCIALLY RESPONSIBLE)</span></p>
+      </div>
+    </div>
+
+
+
+    
+    <!-- <script>
+    const form = document.querySelector('form');
+      const userIdInput = document.getElementById('userID');
+      const passwordInput = document.getElementById('password');
+      const userIdError = document.getElementById('userIDError');
+      const passwordError = document.getElementById('passwordError');
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // const userId = userIdInput.value;
+        const userIdError = document.getElementById('userIDError');
+        const passwordError = document.getElementById('passwordError');
+
+
+        // const password = passwordInput.value;
+
+        userIdError.style.display = 'none'; 
+        passwordError.style.display = 'none';
+        userIdInput.classList.remove('error');
+        passwordInput.classList.remove('error');
+
+        let isValid = true;
+
+        if (!/^\d+$/.test(userId)) {
+          userIdError.textContent = 'User ID must contain only numbers.';
+          userIdError.style.display = 'block';
+          userIdInput.classList.add('error');
+          isValid = false;
+        }
+        if (password.length < 8 ) {
+          passwordError.textContent = 'Password must be at least 8 characters long.';
+          passwordError.style.display = 'block';
+          passwordInput.classList.add('error');
+          isValid = false;
+        }
+
+        if (isValid) {
+          if (userId === '12345' && password === 'password123') {
+            window.location.href = 'client.html';
+          } else {
+            alert('Invalid User ID or Password.');
+          }
+        }
+      });
+    </script> -->
+
+
+    <script>
+        const form = document.querySelector('form');
+        const userIdInput = document.getElementById('userID');
+        const passwordInput = document.getElementById('password');
+        const userIdError = document.getElementById('userIDError');
+        const passwordError = document.getElementById('passwordError');
+      
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
+      
+          const userId = userIdInput.value.trim();
+          const password = passwordInput.value.trim();
+      
+          // Hide previous error messages
+          userIdError.style.display = 'none';
+          passwordError.style.display = 'none';
+          userIdInput.classList.remove('error');
+          passwordInput.classList.remove('error');
+      
+          let isValid = true;
+      
+          // Check if user ID is number only
+          if (!/^\d+$/.test(userId)) {
+            userIdError.textContent = 'User ID must contain only numbers.';
+            userIdError.style.display = 'block';
+            isValid = false;
+          }
+      
+          // Check password length
+          if (password.length < 8) {
+            passwordError.textContent = 'Password must be at least 8 characters long.';
+            passwordError.style.display = 'block';
+            isValid = false;
+          }
+      
+
+          //keni me palitan user and pass pare!
+          // If valid, check login
+          if (isValid) {
+            if (userId === '12345' && password === 'password123') {
+              sessionStorage.setItem('loggedIn', 'true');  // I-set ang login flag
+              window.location.href = 'dashboard.html'; // Redirect to client.html
+            } else {
+              alert('Invalid User ID or Password.');
+            }
+          }
+        });
+
+        if (sessionStorage.getItem('loggedIn') === 'true') {
+    window.location.href = 'dashboard.html'; // Redirect kapag naka-login na
+    }
+      </script>
+  </main>
+  </main>
+
+  <footer>
+    ©2025 University of the Assumption Events
+  </footer>
+</body>
+</html>
