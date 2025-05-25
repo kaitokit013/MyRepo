@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Event Management System</title>
+  <link rel="stylesheet" href="Untitled-1.css" />
+
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+  
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo"></div>
+      <ul class="nav-links">
+      </ul>
+      <nav class="navbar">
+        <div class="logo"></div>
+        <!-- <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#eventsSection">Events</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul> -->
+        <a href="login.html" class="signout-btn" id="logoutBtn">Sign Out</a>
+
+
+
+      </nav>
+      
+    </nav>
+
+
+
+    <div class="hero">
+      <h1>Welcome to UA Events</h1>
+      <p>Manage and explore the most exciting events around you</p>
+      
+
+      <a href="#" class="cta-btn" id="createEventBtn">Create Event</a>
+
+
+    </div>
+
+
+
+    <div id="eventModal" style="display:none;" class="modal">
+  <div class="modal-content">
+    <h2>Create New Event</h2>
+
+    <label>Title:</label>
+    <input type="text" id="eventTitle"><br><br>
+
+    <label>Date:</label>
+    <input type="date" id="eventDate"><br><br>
+
+    <label>Time:</label>
+    <input type="time" id="eventTime"><br><br>
+
+    <label>Location:</label>
+    <input type="text" id="eventLocation"><br><br>
+
+    <label>Image:</label>
+    <input type="file" id="eventImage"><br><br>
+
+    <label>Notes:</label>
+    <textarea id="eventNotes" rows="3" placeholder="Add your notes here..."></textarea><br><br>
+
+    
+
+    <button onclick="submitEvent()">Submit</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+
+  </header>
+
+
+
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <button id="toggleSidebar" class="toggle-btn">
+  </button>
+  <h3>Event Management</h3>
+  <ul>
+    <li><a href="dashboard.html"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="#eventsSection"><i class="fas fa-calendar-alt"></i> Events</a></li>
+    <li><a href="category.html"><i class="fas fa-list"></i> Category</a></li>
+    <li><a href="sponsors.html"><i class="fas fa-handshake"></i> Manage Sponsors</a></li>
+    <li><a href="users.html"><i class="fas fa-users"></i> Manage Users</a></li>
+    <li><a href="settings.html"><i class="fas fa-cogs"></i> Website Setting</a></li>
+  </ul>
+</div>
+
+
+
+
+
+
+<section class="events-section" id="eventsSection">
+  <h2>Upcoming Events</h2>
+  <div class="event-cards">
+  </div>
+</section>
+
+
+
+<button id="scrollTopBtn" title="Go to top" style="
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 10000;
+  display: none;
+">
+  ↑
+</button>
+
+
+
+
+
+
+    <!-- <section class="events-section">
+      <h2>Upcoming Events</h2>
+      <div class="event-cards">
+       
+      </div>
+    </section> -->
+  </div> 
+  
+
+  <script>
+    // Open & Close Modal
+    function openModal() {
+      document.getElementById("eventModal").style.display = "flex";
+    }
+    function closeModal() {
+      document.getElementById("eventModal").style.display = "none";
+    }
+    document.getElementById("createEventBtn").addEventListener("click", openModal);
+
+    // Submit Event
+    function submitEvent() {
+      const title = document.getElementById("eventTitle").value;
+      const date = document.getElementById("eventDate").value;
+      const location = document.getElementById("eventLocation").value;
+      const imageFile = document.getElementById("eventImage").files[0];
+      const notes = document.getElementById("eventNotes").value;  // kunin notes
+      const time = document.getElementById("eventTime").value;
+
+      if (!title || !date || !location || !imageFile || !time) {
+        alert("Please fill in all fields including an image!");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const imageSrc = e.target.result;
+
+        const newEvent = { title, date, time, location, imageSrc, notes };
+        let events = JSON.parse(localStorage.getItem("events")) || [];
+        events.push(newEvent);
+        localStorage.setItem("events", JSON.stringify(events));
+
+        renderEventCard(newEvent, events.length - 1);
+        closeModal();
+
+        document.getElementById("eventTitle").value = "";
+        document.getElementById("eventDate").value = "";
+        document.getElementById("eventLocation").value = "";
+        document.getElementById("eventImage").value = "";
+        document.getElementById("eventNotes").value = "";  // clear notes
+        document.getElementById("eventTime").value = "";
+      };
+      reader.readAsDataURL(imageFile);
+    }
+
+    // Render Event Card with Delete Button
+    function renderEventCard(event, index) {
+  const container = document.querySelector(".event-cards");
+
+
+  function formatTo12Hour(time24) {
+  const [hour, minute] = time24.split(":");
+  let h = parseInt(hour);
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12 || 12; // convert 0 to 12
+  return `${h}:${minute} ${ampm}`;
+}
+
+  const eventDate = new Date(event.date);
+
+  // const eventDateTime = new Date(`${event.date}T${event.time}`);
+  const formattedDate = eventDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+
+  const newCard = document.createElement("div");
+  newCard.className = "event-card";
+  newCard.innerHTML = `
+    <img src="${event.imageSrc}" alt="Event Image">
+    <div class="card-content">
+      <h3>${event.title}</h3>
+     <p><strong>Date & Time:</strong> ${formattedDate} ${formatTo12Hour(event.time)} - ${event.location}</p>
+
+      <p><strong>Notes:</strong> ${event.notes || "No notes"}</p>
+      <a href="#" class="details-btn">View Details</a>
+      <button class="delete-btn">Delete</button>
+    </div>
+  `;
+
+  newCard.querySelector(".delete-btn").addEventListener("click", function () {
+    container.removeChild(newCard);
+    let events = JSON.parse(localStorage.getItem("events")) || [];
+    events.splice(index, 1);
+    localStorage.setItem("events", JSON.stringify(events));
+    location.reload();
+  });
+
+  container.prepend(newCard);
+}
+
+   // Load saved events, sort by date (nearest first)
+window.addEventListener("DOMContentLoaded", function () {
+  let events = JSON.parse(localStorage.getItem("events")) || [];
+
+  events.sort((a, b) => new Date(a.date) - new Date(b.date)); // ascending by date
+
+  events.forEach((event, index) => renderEventCard(event, index));
+});
+
+    //signout
+    document.getElementById("logoutBtn").addEventListener("click", function (e) {
+  e.preventDefault(); // stop default link behavior
+  sessionStorage.removeItem("loggedIn");
+  window.location.href = "login.html"; 
+
+
+});
+
+if (sessionStorage.getItem("loggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+
+
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+window.onscroll = function () {
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    scrollTopBtn.style.display = "block";
+  } else {
+    scrollTopBtn.style.display = "none";
+  }
+};
+
+scrollTopBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
+
+
+
+  const toggleBtn = document.querySelector('.toggle-btn');
+const sidebar = document.querySelector('.sidebar');
+
+toggleBtn.addEventListener('click', () => {
+  sidebar.classList.toggle('hidden');
+});
+
+
+  </script>
+
+
+  <footer>
+    <p>&copy; 2025 Eventify. All rights reserved.</p>
+  </footer>
+</body>
+</html>
